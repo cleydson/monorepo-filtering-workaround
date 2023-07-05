@@ -1,4 +1,4 @@
-# Monorepo workflow for GitHub Advanced Security Code Scanning
+# Monorepo workflow for GitHub Advanced Security Code Scanning 
 
 > ℹ️ This is an _unofficial_ project created by Field Security Services, and is not officially supported by GitHub.
 
@@ -8,7 +8,7 @@ This is useful when dealing with monorepos that have code for several different 
 
 You can use this workflow modification to mark each project with a unique scanning tool name, and then filter the results in the GitHub Security tab by that tool to only show results for a specific project.
 
-The SARIF (the format for the code scanning results) is edited before upload to Code Scanning, changing the tool name. CodeQL is also set up so that the content of the SARIF populates the Code Scanning UI correctly.
+The [SARIF](https://docs.github.com/en/code-security/code-scanning/integrating-with-code-scanning/sarif-support-for-code-scanning) (the format for the code scanning results) is edited before upload to Code Scanning, changing the tool name. CodeQL is also set up so that the content of the SARIF populates the Code Scanning UI correctly.
 
 The unique tool name can then be used to filter results in the web user interface:
 
