@@ -2,6 +2,8 @@ name: "CodeQL - Project 4"
 on:
   push:
     branches: [ "main" ]
+    paths:
+      - project4/**
   pull_request:
     # The branches below must be a subset of the branches above
     branches: [ "main" ]
