@@ -21,6 +21,7 @@ jobs:
     name: CodeQL
     runs-on: ubuntu-latest
 
+    # If we need to run the whole workflow on a specific directory we can set the bellow:
     # defaults:
     #   run:
     #     working-directory: ${{ inputs.WORKING_DIRECTORY }}
@@ -47,7 +48,7 @@ jobs:
         #   languages: ${{ inputs.SCRIPTING_LANGUAGES }}          
           
       # Autobuild attempts to build any compiled languages (C/C++, C#, or Java). 
-      - name: Autobuild
+      - name: Autobuild on ${{ inputs.WORKING_DIRECTORY }}
         id: autobuild
         uses: github/codeql-action/autobuild@v2
         with:
@@ -61,7 +62,7 @@ jobs:
           echo "Run partial build on part of monorepo"
           mvn compile -pl ${{ inputs.WORKING_DIRECTORY }} -B -V
 
-      - name: Perform CodeQL Analysis
+      - name: Perform CodeQL Analysis on ${{ inputs.WORKING_DIRECTORY }}
         uses: github/codeql-action/analyze@v2
         with:
           category: "/language:${{ inputs.SCRIPTING_LANGUAGES }}"
@@ -73,7 +74,7 @@ jobs:
           CODEQL_ACTION_EXTRA_OPTIONS: '{"database":{"analyze":["--sarif-add-snippets","--sarif-add-query-help","--sarif-group-rules-by-pack"]}}'
   
       # Rename CodeQL tool to allow filtering by workflow in Code Scanning
-      - name: Rename CodeQL tool
+      - name: Rename CodeQL tool before uploading
         run: |
           jq ".runs[0].tool.driver.name = \"CodeQL-${WORKFLOW_TAG}-${{ inputs.SCRIPTING_LANGUAGES }}\"" sarif-results/${{ inputs.SCRIPTING_LANGUAGES }}.sarif > sarif-results/${{ inputs.SCRIPTING_LANGUAGES }}-edited.sarif
         env:
@@ -85,10 +86,3 @@ jobs:
         uses: github/codeql-action/upload-sarif@v2
         with:
           sarif_file: sarif-results/${{ inputs.SCRIPTING_LANGUAGES }}-edited.sarif
-
-      - name: Show what is inside the file
-        run: |
-          cat sarif-results/${{ inputs.SCRIPTING_LANGUAGES }}-edited.sarif
-        env:
-          # edit this tag to something unique to your workflow
-          WORKFLOW_TAG: ${{ inputs.TAG_NAME }}

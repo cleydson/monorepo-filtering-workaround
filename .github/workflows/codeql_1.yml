@@ -12,8 +12,10 @@ on:
 #     - cron: '43 3 * * 5'
 
 jobs:
-  call-workflow-passing-data:
-    uses: cleydson/monorepo-filtering-workaround/.github/workflows/codeql.yml@main
+  call_codeql_analysis:
+    uses: ./.github/workflows/_codeql.yml
+    # We can also use the following syntax for a different repository:
+    #uses: cleydson/monorepo-filtering-workaround/.github/workflows/_codeql.yml@main
     with:
       WORKING_DIRECTORY: project1
       SCRIPTING_LANGUAGES: 'java'
