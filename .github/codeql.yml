@@ -1,0 +1,58 @@
+name: "CodeQL - Project 1"
+
+on:
+  workflow_call:
+    inputs:
+      WORKING_DIRECTORY:
+        required: true
+        type: string
+        description: "Working directory of the project"
+      SCRIPTING_LANGUAGES:
+        required: true
+        type: string
+        description: "Scripting languages used in the project"
+        
+jobs:
+  codeql_analysis:
+    name: CodeQL
+    runs-on: ubuntu-latest
+
+    defaults:
+      run:
+        working-directory: ${{ inputs.WORKING_DIRECTORY }}
+
+    permissions:
+      actions: read
+      contents: read
+      security-events: write
+
+    strategy:
+      fail-fast: false
+      
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+        
+      - name: Initialize CodeQL
+        uses: github/codeql-action/init@v2
+        with:
+          languages: ${{ inputs.SCRIPTING_LANGUAGES }}
+        # with:          
+        #   config-file: ${{ inputs.WORKING_DIRECTORY }}/codeql-config.yml
+        #   languages: ${{ inputs.SCRIPTING_LANGUAGES }}          
+          
+      # Autobuild attempts to build any compiled languages (C/C++, C#, or Java). 
+      - name: Autobuild
+        id: autobuild
+        uses: github/codeql-action/autobuild@v2
+        continue-on-error: true
+
+      # If the Autobuild fails above, then build it manually.
+      - if: steps.autobuild.outcome == 'failure'
+        name: Manual Build  
+        run: |
+          echo "Run partial build on part of monorepo"
+          mvn compile -pl ${{ inputs.WORKING_DIRECTORY }} -B -V
+
+      - name: Perform CodeQL Analysis
+        uses: github/codeql-action/analyze@v2
