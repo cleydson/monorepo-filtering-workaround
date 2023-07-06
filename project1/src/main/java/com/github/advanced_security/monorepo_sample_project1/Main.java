@@ -9,8 +9,10 @@ public class Main {
             System.out.println("Argument " + i + ": " + args[i]);
         }
 
+        // Adding another error for the CodeQL to find
         for (int i = 0; i <= args.length; i++) { // BAD, should be <, not <=
             System.out.println("Argument " + i + ": " + args[i]);
         }
+
     }
 }
