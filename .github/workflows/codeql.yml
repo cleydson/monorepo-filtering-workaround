@@ -41,6 +41,7 @@ jobs:
         uses: github/codeql-action/init@v2
         with:
           languages: ${{ inputs.SCRIPTING_LANGUAGES }}
+          queries: security-extended,security-and-quality
         # with:          
         #   config-file: ${{ inputs.WORKING_DIRECTORY }}/codeql-config.yml
         #   languages: ${{ inputs.SCRIPTING_LANGUAGES }}          
