@@ -17,6 +17,7 @@ jobs:
     with:
       WORKING_DIRECTORY: project1
       SCRIPTING_LANGUAGES: 'java'
+      TAG_NAME: project1
 
     permissions:
       actions: read
