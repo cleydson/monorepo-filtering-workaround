@@ -21,9 +21,9 @@ jobs:
     name: CodeQL
     runs-on: ubuntu-latest
 
-    defaults:
-      run:
-        working-directory: ${{ inputs.WORKING_DIRECTORY }}
+    # defaults:
+    #   run:
+    #     working-directory: ${{ inputs.WORKING_DIRECTORY }}
 
     permissions:
       actions: read
@@ -74,6 +74,7 @@ jobs:
       # Rename CodeQL tool to allow filtering by workflow in Code Scanning
       - name: Rename CodeQL tool
         run: |
+          ls 
           jq ".runs[0].tool.driver.name = \"CodeQL-${WORKFLOW_TAG}-${{ inputs.SCRIPTING_LANGUAGES }}\"" sarif-results/${{ inputs.SCRIPTING_LANGUAGES }}.sarif > sarif-results/${{ inputs.SCRIPTING_LANGUAGES }}-edited.sarif
         env:
           # edit this tag to something unique to your workflow
