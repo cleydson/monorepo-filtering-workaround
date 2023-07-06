@@ -16,3 +16,8 @@ jobs:
     with:
       WORKING_DIRECTORY: .github/labeler.yml
       SCRIPTING_LANGUAGES: 'java'
+
+    permissions:
+      actions: read
+      contents: read
+      security-events: write
