@@ -36,60 +36,51 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
-
-      - name: list the Directory
-        run: |
-          ls
-
-      - name: list the Directory
-        run: |
-          tree
         
-        
-      # - name: Initialize CodeQL
-      #   uses: github/codeql-action/init@v2
-      #   with:
-      #     languages: ${{ inputs.SCRIPTING_LANGUAGES }}
-      #   # with:          
-      #   #   config-file: ${{ inputs.WORKING_DIRECTORY }}/codeql-config.yml
-      #   #   languages: ${{ inputs.SCRIPTING_LANGUAGES }}          
+      - name: Initialize CodeQL
+        uses: github/codeql-action/init@v2
+        with:
+          languages: ${{ inputs.SCRIPTING_LANGUAGES }}
+        # with:          
+        #   config-file: ${{ inputs.WORKING_DIRECTORY }}/codeql-config.yml
+        #   languages: ${{ inputs.SCRIPTING_LANGUAGES }}          
           
-      # # Autobuild attempts to build any compiled languages (C/C++, C#, or Java). 
-      # - name: Autobuild
-      #   id: autobuild
-      #   uses: github/codeql-action/autobuild@v2
-      #   with:
-      #     working-directory: ${{ inputs.WORKING_DIRECTORY }}
-      #   continue-on-error: true
+      # Autobuild attempts to build any compiled languages (C/C++, C#, or Java). 
+      - name: Autobuild
+        id: autobuild
+        uses: github/codeql-action/autobuild@v2
+        with:
+          working-directory: ${{ inputs.WORKING_DIRECTORY }}
+        continue-on-error: true
 
-      # # If the Autobuild fails above, then build it manually.
-      # - if: steps.autobuild.outcome == 'failure'
-      #   name: Manual Build  
-      #   run: |
-      #     echo "Run partial build on part of monorepo"
-      #     mvn compile -pl ${{ inputs.WORKING_DIRECTORY }} -B -V
+      # If the Autobuild fails above, then build it manually.
+      - if: steps.autobuild.outcome == 'failure'
+        name: Manual Build  
+        run: |
+          echo "Run partial build on part of monorepo"
+          mvn compile -pl ${{ inputs.WORKING_DIRECTORY }} -B -V
 
-      # - name: Perform CodeQL Analysis
-      #   uses: github/codeql-action/analyze@v2
-      #   with:
-      #     category: "/language:${{ inputs.SCRIPTING_LANGUAGES }}"
-      #     upload: False
-      #     output: sarif-results
-      #   env:
-      #   # https://codeql.github.com/docs/codeql-cli/manual/database-analyze/#options
-      #   # add code snippet, query help and group rules by pack, to the SARIF file
-      #     CODEQL_ACTION_EXTRA_OPTIONS: '{"database":{"analyze":["--sarif-add-snippets","--sarif-add-query-help","--sarif-group-rules-by-pack"]}}'
+      - name: Perform CodeQL Analysis
+        uses: github/codeql-action/analyze@v2
+        with:
+          category: "/language:${{ inputs.SCRIPTING_LANGUAGES }}"
+          upload: False
+          output: sarif-results
+        env:
+        # https://codeql.github.com/docs/codeql-cli/manual/database-analyze/#options
+        # add code snippet, query help and group rules by pack, to the SARIF file
+          CODEQL_ACTION_EXTRA_OPTIONS: '{"database":{"analyze":["--sarif-add-snippets","--sarif-add-query-help","--sarif-group-rules-by-pack"]}}'
   
-      # # Rename CodeQL tool to allow filtering by workflow in Code Scanning
-      # - name: Rename CodeQL tool
-      #   run: |
-      #     jq ".runs[0].tool.driver.name = \"CodeQL-${WORKFLOW_TAG}-${{ inputs.SCRIPTING_LANGUAGES }}\"" sarif-results/${{ inputs.SCRIPTING_LANGUAGES }}.sarif > sarif-results/${{ inputs.SCRIPTING_LANGUAGES }}-edited.sarif
-      #   env:
-      #     # edit this tag to something unique to your workflow
-      #     WORKFLOW_TAG: ${{ inputs.TAG_NAME }}
+      # Rename CodeQL tool to allow filtering by workflow in Code Scanning
+      - name: Rename CodeQL tool
+        run: |
+          jq ".runs[0].tool.driver.name = \"CodeQL-${WORKFLOW_TAG}-${{ inputs.SCRIPTING_LANGUAGES }}\"" sarif-results/${{ inputs.SCRIPTING_LANGUAGES }}.sarif > sarif-results/${{ inputs.SCRIPTING_LANGUAGES }}-edited.sarif
+        env:
+          # edit this tag to something unique to your workflow
+          WORKFLOW_TAG: ${{ inputs.TAG_NAME }}
   
-      # # Upload the CodeQL Analysis results
-      # - name: Upload SARIF
-      #   uses: github/codeql-action/upload-sarif@v2
-      #   with:
-      #     sarif_file: sarif-results/${{ inputs.SCRIPTING_LANGUAGES }}-edited.sarif
+      # Upload the CodeQL Analysis results
+      - name: Upload SARIF
+        uses: github/codeql-action/upload-sarif@v2
+        with:
+          sarif_file: sarif-results/${{ inputs.SCRIPTING_LANGUAGES }}-edited.sarif
