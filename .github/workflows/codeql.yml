@@ -45,6 +45,8 @@ jobs:
       - name: Autobuild
         id: autobuild
         uses: github/codeql-action/autobuild@v2
+        with:
+          working-directory: ${{ inputs.WORKING_DIRECTORY }}
         continue-on-error: true
 
       # If the Autobuild fails above, then build it manually.
