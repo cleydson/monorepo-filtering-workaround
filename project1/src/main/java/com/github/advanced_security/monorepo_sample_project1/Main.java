@@ -9,14 +9,15 @@ public class Main {
             System.out.println("Argument " + i + ": " + args[i]);
         }
 
-        // Adding another error for the CodeQL to find
-        for (int i = 0; i <= args.length; i++) { // BAD, should be <, not <=
-            System.out.println("Argument " + i + ": " + args[i]);
-        }
+        String s = "Not a number";
+        int n;
 
-        // Adding another error for the CodeQL to find
-        for (int i = 0; i <= args.length; i++) { // BAD, should be <, not <=
-            System.out.println("Argument " + i + ": " + args[i]);
+        n = Integer.parseInt(s); // BAD: NumberFormatException is not caught.
+
+        try {
+                n = Integer.parseInt(s);
+        } catch (NumberFormatException e) {  // GOOD: The exception is caught. 
+                // Handle the exception
         }
 
     }
