@@ -8,5 +8,9 @@ public class Main {
         for (int i = 0; i <= args.length; i++) { // BAD, should be <, not <=
             System.out.println("Argument " + i + ": " + args[i]);
         }
+
+        for (int i = 0; i <= args.length; i++) { // BAD, should be <, not <=
+            System.out.println("Argument " + i + ": " + args[i]);
+        }
     }
 }

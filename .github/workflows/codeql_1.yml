@@ -14,7 +14,7 @@ jobs:
   call-workflow-passing-data:
     uses: cleydson/monorepo-filtering-workaround/.github/workflows/codeql.yml@main
     with:
-      WORKING_DIRECTORY: .github/labeler.yml
+      WORKING_DIRECTORY: project1
       SCRIPTING_LANGUAGES: 'java'
 
     permissions:
