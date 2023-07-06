@@ -12,7 +12,7 @@ on:
 
 jobs:
   call-workflow-passing-data:
-    uses: cleydson/monorepo-filtering-workaround/.github/codeql.yml@main
+    uses: cleydson/monorepo-filtering-workaround/.github/workflows/codeql.yml@main
     with:
       WORKING_DIRECTORY: .github/labeler.yml
       SCRIPTING_LANGUAGES: 'java'
