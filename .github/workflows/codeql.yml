@@ -1,4 +1,4 @@
-name: "CodeQL - Project 1"
+name: "CodeQL - Project Analysis"
 
 on:
   workflow_call:
