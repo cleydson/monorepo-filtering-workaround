@@ -11,5 +11,6 @@ public class Project2 {
         String s = "Not a number";
         int n;
         n = Integer.parseInt(s); // BAD: NumberFormatException is not caught.
+   
     }
 }
