@@ -36,13 +36,9 @@ jobs:
     - name: Echo PROJECT_PATH
       run: |
         echo "PROJECT_PATH=${{env.PROJECT_PATH}}"
-        if [ "$PROJECT_PATH" == "" ]; then
-          echo "PROJECT_PATH=NULL" >> $GITHUB_ENV
-        fi
-        echo "PROJECT_PATH=${{env.PROJECT_PATH}}"
 
   call_codeql_analysis:
-    if: "${{ needs.file_changes.outputs.build_path != 'NULL' }}" 
+    if: "${{ needs.file_changes.outputs.build_path != '' }}" 
     uses: ./.github/workflows/_codeql.yml
     with:
       WORKING_DIRECTORY: ${{ needs.file_changes.outputs.build_path }}
