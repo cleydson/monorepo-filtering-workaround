@@ -13,6 +13,7 @@ jobs:
     name: file_changes
     outputs:
       build_path: "${{env.PROJECT_PATH}}"
+      run_next_step: ${{ needs.file_changes.outputs.build_path }} != ''
     runs-on: ubuntu-latest
     steps:
     - name: Checkout code
@@ -38,7 +39,7 @@ jobs:
         echo "PROJECT_PATH=${{env.PROJECT_PATH}}"
 
   call_codeql_analysis:
-    if: ${{ needs.file_changes.outputs.build_path }} != ''
+    if: ${{ needs.file_changes.outputs.run_next_step }} 
     uses: ./.github/workflows/_codeql.yml
     # We can also use the following syntax for a different repository:
     #uses: cleydson/monorepo-filtering-workaround/.github/workflows/_codeql.yml@main
