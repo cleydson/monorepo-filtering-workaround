@@ -33,6 +33,7 @@ runs:
 
     # Rename CodeQL tool to allow filtering by workflow in Code Scanning
     - name: Rename CodeQL tool before uploading
+      shell: bash
       run: |
         jq ".runs[0].tool.driver.name = \"CodeQL-${WORKFLOW_TAG}-${{ inputs.SCRIPTING_LANGUAGES }}\"" sarif-results/${{ inputs.SCRIPTING_LANGUAGES }}.sarif > sarif-results/${{ inputs.SCRIPTING_LANGUAGES }}-edited.sarif
       env:
