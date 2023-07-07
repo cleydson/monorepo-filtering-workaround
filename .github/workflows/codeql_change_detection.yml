@@ -17,7 +17,7 @@ jobs:
     steps:
     - name: Checkout code
       uses: actions/checkout@v3
-    - uses: dorny/paths-filter@v2
+    - uses: viewthespace/paths-filter@master
       id: changes
       with:
         filters: |
