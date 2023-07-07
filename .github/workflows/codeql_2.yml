@@ -23,6 +23,7 @@ jobs:
           - project2/**
           project3:
           - project3/**
+        token: "${{ github.token }}"
 
     - if: steps.changes.outputs.project2 == 'true'
       run: |
