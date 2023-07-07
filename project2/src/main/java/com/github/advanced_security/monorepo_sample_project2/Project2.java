@@ -7,7 +7,6 @@ public class Project2 {
         for (int i = 0; i <= args.length; i++) { // BAD, should be <, not <=
             System.out.println("Argument " + i + ": " + args[i]);
         }
-
         String s = "Not a number";
         int n;
         n = Integer.parseInt(s); // BAD: NumberFormatException is not caught.
