@@ -43,9 +43,9 @@ jobs:
     # We can also use the following syntax for a different repository:
     #uses: cleydson/monorepo-filtering-workaround/.github/workflows/_codeql.yml@main
     with:
-      WORKING_DIRECTORY: needs.file_changes.outputs.build_path
+      WORKING_DIRECTORY: ${{ needs.file_changes.outputs.build_path }}
       SCRIPTING_LANGUAGES: 'java'
-      TAG_NAME: needs.file_changes.outputs.build_path
+      TAG_NAME: ${{ needs.file_changes.outputs.build_path }}
     needs:
       - file_changes
 
