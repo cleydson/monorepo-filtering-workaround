@@ -43,7 +43,7 @@ jobs:
 
 
   call_codeql_analysis:
-    if: ${{ needs.file_changes.outputs.build_path }} != 'NULL'
+    if: "${{ needs.file_changes.outputs.build_path != 'NULL' }}" 
     runs-on: ubuntu-latest
     steps:
       - run: echo ${{ needs.file_changes.outputs.build_path }}
