@@ -13,7 +13,7 @@ on:
 
 jobs:
   call_codeql_analysis:
-    uses: ./.github/workflows/_codeql.yml
+    uses: ./.github/workflows/_codeql_action.yml
     # We can also use the following syntax for a different repository:
     #uses: cleydson/monorepo-filtering-workaround/.github/workflows/_codeql.yml@main
     with:

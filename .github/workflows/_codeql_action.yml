@@ -60,8 +60,8 @@ jobs:
           echo "Run partial build on part of monorepo"
           mvn compile -pl ${{ inputs.WORKING_DIRECTORY }} -B -V
 
-      - name: Perform CodeQL Analysis on ${{ inputs.WORKING_DIRECTORY }}
-        uses: github/codeql-action/analyze@v2
+      - name: Perform CodeQL Analysis and Upload the results for ${{ inputs.WORKING_DIRECTORY }}
+        uses: ./.github/actions/codeql-analysis-and-upload
         with:
           category: "/language:${{ inputs.SCRIPTING_LANGUAGES }}"
           upload: False
