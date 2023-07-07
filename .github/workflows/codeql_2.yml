@@ -39,18 +39,21 @@ jobs:
         echo "PROJECT_PATH=${{env.PROJECT_PATH}}"
 
   call_codeql_analysis:
-    if: ${{ needs.file_changes.outputs.run_next_step }} 
-    uses: ./.github/workflows/_codeql.yml
-    # We can also use the following syntax for a different repository:
-    #uses: cleydson/monorepo-filtering-workaround/.github/workflows/_codeql.yml@main
-    with:
-      WORKING_DIRECTORY: ${{ needs.file_changes.outputs.build_path }}
-      SCRIPTING_LANGUAGES: 'java'
-      TAG_NAME: ${{ needs.file_changes.outputs.build_path }}
-    needs:
-      - file_changes
+    if: ${{ needs.file_changes.outputs.run_next_step }}
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo ${{ needs.file_changes.outputs.run_next_step }}
+      - uses: ./.github/workflows/_codeql.yml
+        # We can also use the following syntax for a different repository:
+        #uses: cleydson/monorepo-filtering-workaround/.github/workflows/_codeql.yml@main
+        with:
+          WORKING_DIRECTORY: ${{ needs.file_changes.outputs.build_path }}
+          SCRIPTING_LANGUAGES: 'java'
+          TAG_NAME: ${{ needs.file_changes.outputs.build_path }}
+      needs:
+        - file_changes
 
-    permissions:
-      actions: read
-      contents: read
-      security-events: write
+      permissions:
+        actions: read
+        contents: read
+        security-events: write
