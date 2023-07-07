@@ -1,9 +1,9 @@
-name: "CodeQL - Project 5"
+name: "CodeQL - Theres no project10. Do nothing then."
 on:
   push:
     branches: [ "main" ]
     paths:
-      - project5/**
+      - project10/**
   pull_request:
     # The branches below must be a subset of the branches above
     branches: [ "main" ]

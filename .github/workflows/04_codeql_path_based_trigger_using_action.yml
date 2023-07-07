@@ -1,9 +1,9 @@
-name: "CodeQL - Project 5"
+name: "CodeQL - Project 1"
 on:
   push:
     branches: [ "main" ]
     paths:
-      - project5/**
+      - project1/**
   pull_request:
     # The branches below must be a subset of the branches above
     branches: [ "main" ]
@@ -13,13 +13,13 @@ on:
 
 jobs:
   call_codeql_analysis:
-    uses: ./.github/workflows/_codeql.yml
+    uses: ./.github/workflows/_codeql_action.yml
     # We can also use the following syntax for a different repository:
     #uses: cleydson/monorepo-filtering-workaround/.github/workflows/_codeql.yml@main
     with:
-      WORKING_DIRECTORY: project5
+      WORKING_DIRECTORY: project1
       SCRIPTING_LANGUAGES: 'java'
-      TAG_NAME: project-5
+      TAG_NAME: project-1
 
     permissions:
       actions: read
