@@ -61,26 +61,7 @@ jobs:
           mvn compile -pl ${{ inputs.WORKING_DIRECTORY }} -B -V
 
       - name: Perform CodeQL Analysis and Upload the results for ${{ inputs.WORKING_DIRECTORY }}
-        uses: ./.github/actions/codeql-analysis-and-upload
+        uses: "./.github/actions/codeql-analysis-and-upload"
         with:
-          category: "/language:${{ inputs.SCRIPTING_LANGUAGES }}"
-          upload: False
-          output: sarif-results
-        env:
-        # https://codeql.github.com/docs/codeql-cli/manual/database-analyze/#options
-        # add code snippet, query help and group rules by pack, to the SARIF file
-          CODEQL_ACTION_EXTRA_OPTIONS: '{"database":{"analyze":["--sarif-add-snippets","--sarif-add-query-help","--sarif-group-rules-by-pack"]}}'
-  
-      # Rename CodeQL tool to allow filtering by workflow in Code Scanning
-      - name: Rename CodeQL tool before uploading
-        run: |
-          jq ".runs[0].tool.driver.name = \"CodeQL-${WORKFLOW_TAG}-${{ inputs.SCRIPTING_LANGUAGES }}\"" sarif-results/${{ inputs.SCRIPTING_LANGUAGES }}.sarif > sarif-results/${{ inputs.SCRIPTING_LANGUAGES }}-edited.sarif
-        env:
-          # edit this tag to something unique to your workflow
-          WORKFLOW_TAG: ${{ inputs.TAG_NAME }}
-  
-      # Upload the CodeQL Analysis results
-      - name: Upload SARIF
-        uses: github/codeql-action/upload-sarif@v2
-        with:
-          sarif_file: sarif-results/${{ inputs.SCRIPTING_LANGUAGES }}-edited.sarif
+          scripting-languages: ${{ inputs.SCRIPTING_LANGUAGES }}
+          tag-name: ${{ inputs.TAG_NAME }}

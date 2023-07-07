@@ -3,15 +3,11 @@ description: >-
   Run CodeQL analysis, and upload the results to GitHub from the custom SARIF file.
 
 inputs:
-  WORKING_DIRECTORY:
-    required: true
-    type: string
-    description: "Working directory of the project"
-  SCRIPTING_LANGUAGES:
+  scripting-languages:
     required: true
     type: string
     description: "Scripting languages used in the project"
-  TAG_NAME:
+  tag-name:
     required: true
     type: string
     description: "Tag name of the project"
@@ -20,10 +16,10 @@ runs:
   using: composite
   steps:
 
-    - name: Perform CodeQL Analysis on ${{ inputs.WORKING_DIRECTORY }}
+    - name: Perform CodeQL Analysis
       uses: github/codeql-action/analyze@v2
       with:
-        category: "/language:${{ inputs.SCRIPTING_LANGUAGES }}"
+        category: "/language:${{ inputs.scripting-languages }}"
         upload: False
         output: sarif-results
       env:
@@ -35,13 +31,13 @@ runs:
     - name: Rename CodeQL tool before uploading
       shell: bash
       run: |
-        jq ".runs[0].tool.driver.name = \"CodeQL-${WORKFLOW_TAG}-${{ inputs.SCRIPTING_LANGUAGES }}\"" sarif-results/${{ inputs.SCRIPTING_LANGUAGES }}.sarif > sarif-results/${{ inputs.SCRIPTING_LANGUAGES }}-edited.sarif
+        jq ".runs[0].tool.driver.name = \"CodeQL-${WORKFLOW_TAG}-${{ inputs.scripting-languages }}\"" sarif-results/${{ inputs.scripting-languages }}.sarif > sarif-results/${{ inputs.scripting-languages }}-edited.sarif
       env:
         # edit this tag to something unique to your workflow
-        WORKFLOW_TAG: ${{ inputs.TAG_NAME }}
+        WORKFLOW_TAG: ${{ inputs.tag-name }}
 
     # Upload the CodeQL Analysis results
     - name: Upload SARIF
       uses: github/codeql-action/upload-sarif@v2
       with:
-        sarif_file: sarif-results/${{ inputs.SCRIPTING_LANGUAGES }}-edited.sarif
+        sarif_file: sarif-results/${{ inputs.scripting-languages }}-edited.sarif
