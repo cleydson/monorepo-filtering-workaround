@@ -3,14 +3,18 @@ description: >-
   Run CodeQL analysis, and upload the results to GitHub from the custom SARIF file.
 
 inputs:
-  scripting-languages:
-    required: true
-    type: string
-    description: "Scripting languages used in the project"
+  
+  # This will be used to create the SARIF file name
   tag-name:
     required: true
     type: string
-    description: "Tag name of the project"
+    description: "Tag name of the project. Could be the app name."
+  
+  # This will be used under tools > category in the GitHub Code Scanning UI
+  sub-category:
+    required: true
+    type: string
+    description: "The sub-category of the project. Could be the the image name, programming language or a specific folder name."
 
 runs:
   using: composite
@@ -19,7 +23,7 @@ runs:
     - name: Perform CodeQL Analysis
       uses: github/codeql-action/analyze@v2
       with:
-        category: "/language:${{ inputs.scripting-languages }}"
+        category: "/app:${{ inputs.sub-category == '' && inputs.tag-name || format("%s-%s", inputs.tag-name, inputs.sub-category ) }}"
         upload: False
         output: sarif-results
       env:
@@ -31,13 +35,13 @@ runs:
     - name: Rename CodeQL tool before uploading
       shell: bash
       run: |
-        jq ".runs[0].tool.driver.name = \"CodeQL-${WORKFLOW_TAG}-${{ inputs.scripting-languages }}\"" sarif-results/${{ inputs.scripting-languages }}.sarif > sarif-results/${{ inputs.scripting-languages }}-edited.sarif
+        jq ".runs[0].tool.driver.name = \"CodeQL-${WORKFLOW_TAG}\"" sarif-results/${{ inputs.tag-name }}.sarif > sarif-results/${{ inputs.tag-name }}-edited.sarif
       env:
         # edit this tag to something unique to your workflow
-        WORKFLOW_TAG: ${{ inputs.tag-name }}
+        WORKFLOW_TAG: ${{ inputs.sub-category == '' && inputs.tag-name || format("%s-%s", inputs.tag-name, inputs.sub-category) }}"
 
     # Upload the CodeQL Analysis results
     - name: Upload SARIF
       uses: github/codeql-action/upload-sarif@v2
       with:
-        sarif_file: sarif-results/${{ inputs.scripting-languages }}-edited.sarif
+        sarif_file: sarif-results/${{ inputs.tag-name }}-edited.sarif

@@ -63,5 +63,5 @@ jobs:
       - name: Perform CodeQL Analysis and Upload the results for ${{ inputs.WORKING_DIRECTORY }}
         uses: "./.github/actions/codeql-analysis-and-upload"
         with:
-          scripting-languages: ${{ inputs.SCRIPTING_LANGUAGES }}
           tag-name: ${{ inputs.TAG_NAME }}
+          sub-category: ${{ inputs.SCRIPTING_LANGUAGES }}
