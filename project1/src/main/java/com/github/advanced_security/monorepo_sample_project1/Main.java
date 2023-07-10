@@ -12,7 +12,7 @@ public class Main {
         String s = "Not a number";
         int n;
 
-        n = Integer.parseInt(s); // BAD: NumberFormatException is not caught.
+        n = Integer.parseInt(s); // BAD: NumberFormatException is not caught
 
         System.out.println(n);
 
