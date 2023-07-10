@@ -23,7 +23,7 @@ runs:
     - name: Perform CodeQL Analysis
       uses: github/codeql-action/analyze@v2
       with:
-        category: "/app:${{ inputs.sub-category == '' && inputs.tag-name || format("{0}-{1}", inputs.tag-name, inputs.sub-category ) }}"
+        category: "/app:${{ inputs.sub-category == '' && inputs.tag-name || format('{0}-{1}', inputs.tag-name, inputs.sub-category ) }}"
         upload: False
         output: sarif-results
       env:
@@ -38,7 +38,7 @@ runs:
         jq ".runs[0].tool.driver.name = \"CodeQL-${WORKFLOW_TAG}\"" sarif-results/${{ inputs.tag-name }}.sarif > sarif-results/${{ inputs.tag-name }}-edited.sarif
       env:
         # edit this tag to something unique to your workflow
-        WORKFLOW_TAG: ${{ inputs.sub-category == '' && inputs.tag-name || format("{0}-{1}", inputs.tag-name, inputs.sub-category) }}"
+        WORKFLOW_TAG: ${{ inputs.sub-category == '' && inputs.tag-name || format('{0}-{1}', inputs.tag-name, inputs.sub-category) }}"
 
     # Upload the CodeQL Analysis results
     - name: Upload SARIF
