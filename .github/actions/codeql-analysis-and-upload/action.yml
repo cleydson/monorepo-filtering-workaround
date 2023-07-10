@@ -36,7 +36,7 @@ runs:
       shell: bash
       run: |
         file=$(ls sarif-results | head -n 1)
-        jq ".runs[0].tool.driver.name = \"CodeQL-${WORKFLOW_TAG}\"" sarif-results/$file.sarif > sarif-results/result-edited.sarif
+        jq ".runs[0].tool.driver.name = \"CodeQL-${WORKFLOW_TAG}\"" sarif-results/$file > sarif-results/result-edited.sarif
       env:
         # edit this tag to something unique to your workflow
         WORKFLOW_TAG: ${{ inputs.sub-category == '' && inputs.tag-name || format('{0}-{1}', inputs.tag-name, inputs.sub-category) }}
