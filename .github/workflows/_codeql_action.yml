@@ -41,8 +41,8 @@ jobs:
       - name: Initialize CodeQL
         uses: github/codeql-action/init@v2
         with:
-          # languages: ${{ inputs.SCRIPTING_LANGUAGES }}
           queries: security-extended,security-and-quality
+          # languages: ${{ inputs.SCRIPTING_LANGUAGES }}
           # config-file: ${{ inputs.WORKING_DIRECTORY }}/codeql-config.yml       
           
       # Autobuild attempts to build any compiled languages (C/C++, C#, or Java). 
