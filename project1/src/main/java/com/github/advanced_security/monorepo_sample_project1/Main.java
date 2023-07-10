@@ -14,7 +14,7 @@ public class Main {
 
         n = Integer.parseInt(s); // BAD: NumberFormatException is not caught
 
-        System.out.println(n);
+        //System.out.println(n);
 
     }
 }

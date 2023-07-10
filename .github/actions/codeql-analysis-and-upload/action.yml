@@ -35,7 +35,7 @@ runs:
     - name: Rename CodeQL tool before uploading
       shell: bash
       run: |
-        file=$(ls sarif-results | head -n 1)
+        file=$(ls -t sarif-results | head -n 1)
         jq ".runs[0].tool.driver.name = \"CodeQL-${WORKFLOW_TAG}\"" sarif-results/$file > sarif-results/result-edited.sarif
       env:
         # edit this tag to something unique to your workflow
