@@ -35,8 +35,8 @@ runs:
     - name: Rename CodeQL tool before uploading
       shell: bash
       run: |
-        tree
-        jq ".runs[0].tool.driver.name = \"CodeQL-${WORKFLOW_TAG}\"" sarif-results/${{ inputs.tag-name }}.sarif > sarif-results/${{ inputs.tag-name }}-edited.sarif
+        file=$(ls sarif-results | head -n 1)
+        jq ".runs[0].tool.driver.name = \"CodeQL-${WORKFLOW_TAG}\"" sarif-results/$file.sarif > sarif-results/result-edited.sarif
       env:
         # edit this tag to something unique to your workflow
         WORKFLOW_TAG: ${{ inputs.sub-category == '' && inputs.tag-name || format('{0}-{1}', inputs.tag-name, inputs.sub-category) }}
@@ -45,4 +45,4 @@ runs:
     - name: Upload SARIF
       uses: github/codeql-action/upload-sarif@v2
       with:
-        sarif_file: sarif-results/${{ inputs.tag-name }}-edited.sarif
+        sarif_file: sarif-results/result-edited.sarif
