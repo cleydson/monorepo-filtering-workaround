@@ -1,0 +1,33 @@
+name: "CodeQL - Project ALL"
+on:
+  workflow_dispatch: {}
+
+jobs:
+  call_codeql_analysis:
+    strategy:
+      matrix:
+        app:
+          - path: "project1"
+            language: "java"
+            name: "project-1"
+          - path: "project2"
+            language: "java"
+            name: "project-2"
+          - path: "project3"
+            language: "java"
+            name: "project-3"
+          - path: "project4"
+            language: "java"
+            name: "project-4"
+    uses: ./.github/workflows/_codeql_action.yml
+    # We can also use the following syntax for a different repository:
+    #uses: cleydson/monorepo-filtering-workaround/.github/workflows/_codeql.yml@main
+    with:
+      WORKING_DIRECTORY: ${{ matrix.app.path }}
+      SCRIPTING_LANGUAGES: ${{ matrix.app.language }}
+      TAG_NAME: ${{ matrix.app.name }}
+
+    permissions:
+      actions: read
+      contents: read
+      security-events: write
